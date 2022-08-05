@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Creating an EC2 Instance
+Resources: 
+  MyEc2Instance: 
+      Type: AWS::EC2::Instance
+      Properties: 
+        ImageId: "ami-051dfed8f67f095f5"
+        KeyName: "ohio-key"
+        AvailabilityZone: "us-east-2a"
+        InstanceType: "t2.micro"
+        SecurityGroupIds: 
+          - Ref: EC2SecurityGroup
+  EC2SecurityGroup:
+      Type: AWS::EC2::SecurityGroup
+      Properties:
+        GroupDescription: "Securitygroup"
+        VpcId: "vpc-0a51da94c0dcf6be4"
+        GroupName: "EC2-sg"
+        SecurityGroupIngress:
+          - IpProtocol: tcp
+            FromPort: '80'
+            ToPort: '80'
+            CidrIp: 0.0.0.0/0 
+          - IpProtocol: tcp
+            FromPort: '443'
+            ToPort: '443'
+            CidrIp: 0.0.0.0/0    
+          - IpProtocol: tcp
+            FromPort: '22'
+            ToPort: '22'
+            CidrIp: 0.0.0.0/0 
+        SecurityGroupEgress:
+          - IpProtocol: -1
+            FromPort: '0'
+            ToPort: '0'
+            CidrIp: 0.0.0.0/0
